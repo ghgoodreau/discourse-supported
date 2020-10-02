@@ -1,7 +1,7 @@
 # name: discourse-supported
 # about: Mark topics as supported when they've reached a certain threshold
 # version: 0.1.1
-# authors: Thomas Hart II
+# authors: Thomas Hart II && Hunter Goodreau
 # url: https://github.com/myrridin/discourse-supported
 
 after_initialize do
@@ -24,10 +24,10 @@ after_initialize do
 
 	  replies = topic.posts.where('post_number > 1')
           reply_word_count = replies.sum(:word_count)
-
+	
+	  # If there are replies and the word count of the replies is over 300, delete the 'needs support' tag
 	  if(replies.length >= 1 && reply_word_count >= 300)
             topic.tags.delete needs_support_tag
-            # topic.tags << supported_tag
 	    supported = true
 	    newly_supported = true
           end
